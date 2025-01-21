@@ -8,7 +8,7 @@ describe 'homebrew::default' do
     end
 
     allow(Homebrew).to receive(:exist?).and_return(true)
-    allow(Homebrew).to receive(:owner).and_return('vagrant')
+    allow_any_instance_of(HomebrewUserWrapper).to receive(:find_homebrew_username).and_return('vagrant')
     stub_command('which git').and_return(true)
   end
 
@@ -40,7 +40,7 @@ describe 'homebrew::default' do
     end
 
     before do
-      allow_any_instance_of(Chef::Mixin::HomebrewUser).to receive(:find_homebrew_uid).and_return(Process.uid)
+      allow_any_instance_of(Chef::Mixin::Homebrew).to receive(:find_homebrew_uid).and_return(Process.uid)
     end
 
     it 'does not run homebrew installation' do
